@@ -50,6 +50,10 @@ public class CuttingPiece {
     @Column(name = "remark", length = 64)
     private String remark;
 
+    /** 该规格是否允许 90° 旋转排样：1 允许 / 0 禁止（名义方向放不下且禁止旋转即未排入） */
+    @Column(name = "allow_rotation")
+    private Integer allowRotation;
+
     /** 派生列（面积 ㎡），走属性访问 */
     private BigDecimal areaSqm;
 

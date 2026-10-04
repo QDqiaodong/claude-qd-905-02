@@ -77,6 +77,30 @@ public class CuttingOrder {
     @Column(name = "remnant_spec", length = 48)
     private String remnantSpec;
 
+    /** 实际下刀采用的双策略：UTILIZATION 利用率优先 / REMNANT 整块余料优先 */
+    @Column(name = "pack_strategy", length = 16)
+    private String packStrategy;
+
+    /** 策略中文名冗余，台账直接展示 */
+    @Column(name = "strategy_name", length = 32)
+    private String strategyName;
+
+    /** 刀缝宽度 mm（切割损耗按此真实参与排样） */
+    @Column(name = "kerf_mm")
+    private Integer kerfMm;
+
+    /** 有效利用率 %（出片面积 + 可复用整块余料面积）/ 原片面积 */
+    @Column(name = "effective_rate", precision = 6, scale = 2)
+    private BigDecimal effectiveRate;
+
+    /** 可复用整块余料面积合计 ㎡（最短边 ≥300mm 且 ≥0.25㎡ 的整块） */
+    @Column(name = "reusable_area_sqm", precision = 12, scale = 3)
+    private BigDecimal reusableAreaSqm;
+
+    /** 刀缝损耗面积 ㎡ */
+    @Column(name = "kerf_area_sqm", precision = 12, scale = 3)
+    private BigDecimal kerfAreaSqm;
+
     @Column(name = "cutter", length = 48)
     private String cutter;
 

@@ -222,6 +222,30 @@ public final class Dict {
     /** 利用率优秀线：高于该值为绿色 */
     public static final double UTIL_GOOD = 95.0;
 
+    // ---------------- 双策略排样 ----------------
+    /** 刀缝宽度默认值 mm（玻璃切割机刀轮损耗 + 掰片余量） */
+    public static final int KERF_DEFAULT_MM = 3;
+    public static final int KERF_MIN_MM = 0;
+    public static final int KERF_MAX_MM = 20;
+    /** 排样策略：本次利用率优先（自由矩形，布局可异形） */
+    public static final String PACK_UTILIZATION = "UTILIZATION";
+    /** 排样策略：整块可复用余料优先（断头台条带，一刀可分离） */
+    public static final String PACK_REMNANT = "REMNANT";
+    /** 试算搜索时限 ms（超过即标记结果不完整，不给伪推荐） */
+    public static final long PACK_SEARCH_TIMEOUT_MS = 400L;
+    /** 搜索操作上限（时钟不可靠环境的双保险） */
+    public static final long PACK_SEARCH_MAX_OPS = 12_000_000L;
+    /** 推荐固定阈值：有效利用率相差超过该点数才算明显（现场可理解） */
+    public static final double REC_EFFECTIVE_GAP_POINTS = 2.0;
+    /** 推荐固定阈值：最大整块余料短边相差超过该毫米数才算明显 */
+    public static final double REC_REMNANT_SIDE_GAP_MM = 200.0;
+    /** 推荐固定阈值：可复用余料面积相差超过该平方米数才算明显 */
+    public static final double REC_REMNANT_AREA_GAP_SQM = 0.30;
+
+    private static final Map<String, String> PACK_STRATEGY_NAME = Map.of(
+            PACK_UTILIZATION, "利用率优先",
+            PACK_REMNANT, "整块余料优先");
+
     // ---------------- 成品架发货状态 ----------------
     public static final String SHIP_PENDING = "PENDING";
     public static final String SHIP_READY = "READY";
@@ -368,6 +392,14 @@ public final class Dict {
 
     public static String cutStatusName(String status) {
         return status == null ? "" : CUT_STATUS_NAME.getOrDefault(status, status);
+    }
+
+    public static boolean isValidPackStrategy(String strategy) {
+        return strategy != null && PACK_STRATEGY_NAME.containsKey(strategy);
+    }
+
+    public static String packStrategyName(String strategy) {
+        return strategy == null ? "" : PACK_STRATEGY_NAME.getOrDefault(strategy, strategy);
     }
 
     public static boolean isValidShipStatus(String status) {

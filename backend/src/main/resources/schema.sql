@@ -76,6 +76,12 @@ CREATE TABLE cutting_order (
     output_area_sqm DECIMAL(12,3),
     remnant_area_sqm DECIMAL(12,3),
     remnant_spec VARCHAR(48),
+    pack_strategy VARCHAR(16),
+    strategy_name VARCHAR(32),
+    kerf_mm INT,
+    effective_rate DECIMAL(6,2),
+    reusable_area_sqm DECIMAL(12,3),
+    kerf_area_sqm DECIMAL(12,3),
     cutter VARCHAR(48),
     operator VARCHAR(32),
     status VARCHAR(16),
@@ -94,6 +100,7 @@ CREATE TABLE cutting_piece (
     quantity INT,
     area_sqm DECIMAL(12,4),
     remark VARCHAR(64),
+    allow_rotation TINYINT DEFAULT 1,
     KEY idx_piece_order (cutting_order_id)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4;
 
