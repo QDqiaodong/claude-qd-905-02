@@ -2,6 +2,7 @@ package com.glass.works.controller;
 
 import com.glass.works.common.ApiResponse;
 import com.glass.works.domain.CuttingOrder;
+import com.glass.works.dto.CuttingRequests.DualPreviewResult;
 import com.glass.works.dto.CuttingRequests.OrderRequest;
 import com.glass.works.dto.CuttingRequests.PreviewRequest;
 import com.glass.works.dto.CuttingRequests.PreviewResult;
@@ -40,10 +41,20 @@ public class CuttingController {
         return ApiResponse.success(service.detail(id));
     }
 
-    /** 试算：不落库，即时返回利用率、余料与布局矩形 */
+    /** 试算：不落库，即时返回利用率、余料与布局矩形（旧版单策略，继续可用） */
     @PostMapping("/preview")
     public ApiResponse<PreviewResult> preview(@RequestBody PreviewRequest request) {
         return ApiResponse.success(service.preview(request));
+    }
+
+    /**
+     * 双策略试算：同一原片批次、同一份出片清单、同一刀缝规则下，
+     * 同时返回「利用率优先」「整块余料优先」两份排样与推荐口径。
+     * 响应带 calculationId / clientSeq，前端据此丢弃过期与乱序结果。
+     */
+    @PostMapping("/preview/dual")
+    public ApiResponse<DualPreviewResult> dualPreview(@RequestBody PreviewRequest request) {
+        return ApiResponse.success(service.dualPreview(request));
     }
 
     /** 生成切割单：出片面积超出原片面积会报错并给出超出面积 */

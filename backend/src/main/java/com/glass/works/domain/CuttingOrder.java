@@ -83,6 +83,18 @@ public class CuttingOrder {
     @Column(name = "operator", length = 32)
     private String operator;
 
+    /** 采用的排样策略：USAGE 利用率优先 / REMNANT 整块余料优先 */
+    @Column(name = "strategy", length = 16)
+    private String strategy;
+
+    /** 刀缝（锯路）宽度 mm，老数据为 0 */
+    @Column(name = "kerf_mm")
+    private Integer kerfMm;
+
+    /** 是否允许出片旋转 90°，老数据按允许处理 */
+    @Column(name = "allow_rotation")
+    private Boolean allowRotation;
+
     @Column(name = "status", length = 16)
     private String status;
 

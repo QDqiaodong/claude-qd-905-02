@@ -39,6 +39,10 @@ const cutting = {
   list: () => call(http.get('/cutting/list')),
   detail: (id) => call(http.get(`/cutting/${id}`)),
   preview: (data) => call(http.post('/cutting/preview', data)),
+  dualPreview: (data) => call(http.post('/cutting/preview/dual', data, {
+    // 两策略各自搜索，长时限下服务端最多约 2×timeLimitMs + 余量
+    timeout: Math.max(20000, ((data?.timeLimitMs) || 800) * 2 + 8000)
+  })),
   create: (data) => call(http.post('/cutting', data)),
   status: (id, status) => call(http.post(`/cutting/${id}/status?status=${encodeURIComponent(status)}`)),
   remove: (id) => call(http.delete(`/cutting/${id}`)),

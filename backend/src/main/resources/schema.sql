@@ -78,6 +78,9 @@ CREATE TABLE cutting_order (
     remnant_spec VARCHAR(48),
     cutter VARCHAR(48),
     operator VARCHAR(32),
+    strategy VARCHAR(16),
+    kerf_mm INT DEFAULT 0,
+    allow_rotation TINYINT(1) DEFAULT 1,
     status VARCHAR(16),
     created_at DATETIME,
     utilization_rate DECIMAL(6,2)
